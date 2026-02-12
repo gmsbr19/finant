@@ -4,12 +4,13 @@ import { vars } from './theme.css';
 globalStyle('body', {
   margin: 0,
   padding: 0,
-  fontFamily: vars.fonts.body,
-  backgroundColor: vars.colors.background,
-  color: vars.colors.text,
+  fontFamily: vars.fonts.sans,
+  backgroundColor: vars.colors.bgBase,
+  color: vars.colors.textPrimary,
   WebkitFontSmoothing: 'antialiased',
 });
 
 globalStyle('*', {
   boxSizing: 'border-box',
+  margin: 0
 });

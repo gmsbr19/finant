@@ -1,33 +1,51 @@
-import { style } from '@vanilla-extract/css';
-import { vars } from '../styles/theme.css';
+import { style } from "@vanilla-extract/css"
+import { vars } from "../styles/theme.css"
 
-export const container = style({
-  padding: vars.space.xlarge,
-  maxWidth: '1200px',
-  margin: '0 auto',
-});
+export const background = style({
+    paddingTop: vars.space.xl,
+    paddingBottom: vars.space.xl,
+    paddingLeft: "25%",
+    paddingRight: "25%",
+})
+
+export const dateLabel = style({
+    color: vars.colors.textSecondary,
+    fontSize: vars.fontSizes.h3,
+    fontWeight: vars.fontWeights.regular,
+    lineHeight: vars.lineHeights.headings,
+    marginBottom: vars.space.s,
+})
+
+export const timeline = style({
+    display: "flex",
+    flexDirection: "column",
+    gap: vars.space.m,
+})
 
 export const title = style({
-  fontSize: '2rem',
-  marginBottom: vars.space.large,
-});
+    fontSize: vars.fontSizes.h1,
+    fontWeight: vars.fontWeights.semibold,
+    lineHeight: vars.lineHeights.headings,
+    color: vars.colors.textPrimary,
+    marginBottom: vars.space.l,
+})
 
-export const grid = style({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-  gap: vars.space.medium,
-});
+export const groupedTransactionsContainer = style({
+    display: "flex",
+    flexDirection: "column",
+    gap: vars.space.m,
+})
 
-export const card = style({
-  backgroundColor: vars.colors.cardBg,
-  padding: vars.space.large,
-  borderRadius: '8px',
-  border: `1px solid ${vars.colors.textSecondary}`,
-});
+export const transactionsContainer = style({
+    display: "flex",
+    flexDirection: "column",
+    gap: vars.space.s,
+})
 
-export const valueRow = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  marginTop: vars.space.medium,
-  fontSize: '1.2rem',
-});
+export const divider = style({
+    height: "1px",
+    backgroundColor: vars.colors.border,
+    width: "100%",
+    marginTop: vars.space.m,
+    marginBottom: vars.space.m,
+})
