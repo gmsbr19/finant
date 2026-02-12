@@ -2,10 +2,106 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../src/generated"
 }
 
 datasource db {
   provider = "sqlite"
+}
+
+// --- ENUMS (Tipagem Forte) ---
+
+enum TransactionType {
+  INCOME      // Entrada (Salário, Freelance)
+  EXPENSE     // Saída (Gasto)
+  TRANSFER    // Movimentação (Conta Corrente -> Investimento)
+}
+
+enum AccountType {
+  WALLET      // Dinheiro físico
+  BANK        // Conta Corrente/Poupança
+  CREDIT_CARD // Cartão de Crédito (Tratado como conta negativa ou instrumento de diferimento)
+  INVESTMENT  // Corretora/Reserva
+}
+
+// --- MODELS ---
+
+model Account {
+  id             Int         @id @default(autoincrement())
+  name           String      // Ex: "Nubank", "Carteira", "Inter"
+  type           AccountType @default(BANK)
+  initialBalance Decimal     @default(0) // Para bater o saldo inicial na migração
+  color          String?     // Hex code para UI (Vanilla Extract)
+
+  // Relações de Partidas Dobradas
+  outgoingTransactions Transaction[] @relation("FromAccount")
+  incomingTransactions Transaction[] @relation("ToAccount")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id           Int      @id @default(autoincrement())
+  name         String   // Ex: "[S] Survival", "Alimentação"
+  icon         String?  // Emoji ou string de ícone (ex: "🍔", "fa-home")
+  color        String?  // Identidade visual da categoria
+  monthlyBudget Decimal? // O teto de gastos (Budget) para essa categoria
+
+  // --- HIERARQUIA (Self-Relation) ---
+  // Permite: [S] Survival (Pai) -> Alimentação (Filho)
+  parentId     Int?
+  parent       Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children     Category[] @relation("CategoryHierarchy")
+
+  transactions Transaction[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id          Int             @id @default(autoincrement())
+  description String          // Ex: "Almoço com namorado", "Parcela 1/10 Guitarra"
+  amount      Decimal         // Valor absoluto
+  type        TransactionType
+  
+  // --- O CORAÇÃO DA PREVISIBILIDADE ---
+  date           DateTime // DATA DE CAIXA: Quando o dinheiro sai/entra efetivamente da conta (vencimento da fatura)
+  competenceDate DateTime // DATA DE COMPETÊNCIA: Mês de referência para o orçamento (data da compra)
+  
+  isPaid      Boolean  @default(false) // Checkbox de "Realizado" vs "Previsto"
+
+  // Relacionamentos
+  categoryId  Int?
+  category    Category? @relation(fields: [categoryId], references: [id])
+
+  // Origem e Destino
+  fromAccId   Int?
+  fromAccount Account? @relation("FromAccount", fields: [fromAccId], references: [id])
+  
+  toAccId     Int?
+  toAccount   Account? @relation("ToAccount", fields: [toAccId], references: [id])
+
+  installmentCurrent Int? @default(1)
+  installmentTotal   Int? @default(1)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// --- GAMIFICAÇÃO & METAS ---
+model Goal {
+  id            Int      @id @default(autoincrement())
+  name          String   // Ex: "Reserva de Emergência", "Monitor Novo"
+  targetAmount  Decimal  // Alvo: R$ 15.000,00
+  currentAmount Decimal  @default(0)
+  deadline      DateTime?
+  priority      Int      @default(1) // 1 (Alta) a 5 (Baixa) - Para ordenar na UI
+
+  isCompleted   Boolean  @default(false)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
