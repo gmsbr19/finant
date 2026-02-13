@@ -3,14 +3,15 @@ import { getDailyHistory } from "@/services/transactions"
 import { HistoryTransaction } from "@/components/HistoryTransaction"
 import { getTransactionVariant } from "@/utils/helpers"
 import { formatCurrency } from "@/utils/format"
+import CategoryHomeCard from "@/components/CategoryHomeCard/CategoryHomeCard"
 
 export default async function Home() {
-    // Busca dados já agrupados. Zero lógica de banco aqui.
     const groupedTransactions = await getDailyHistory(2026, 2)
     const days = Object.keys(groupedTransactions)
 
     return (
         <div className={styles.background}>
+            <CategoryHomeCard />
             <h1 className={styles.title}>Histórico</h1>
             <div className={styles.timeline}>
                 {days.map((day) => (
