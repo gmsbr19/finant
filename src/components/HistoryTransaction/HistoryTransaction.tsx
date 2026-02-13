@@ -1,4 +1,4 @@
-import * as styles from "./transaction.css"
+import * as styles from "./styles.css"
 
 interface TransactionProps {
     description: string

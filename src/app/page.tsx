@@ -1,6 +1,6 @@
 import * as styles from "./page.css"
 import { getDailyHistory } from "@/services/transactions"
-import { HistoryTransaction } from "@/components/HistoryTransaction"
+import { HistoryTransaction } from "@/components/HistoryTransaction/HistoryTransaction"
 import { getTransactionVariant } from "@/utils/helpers"
 import { formatCurrency } from "@/utils/format"
 import CategoryHomeCard from "@/components/CategoryHomeCard/CategoryHomeCard"
