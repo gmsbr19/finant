@@ -6,5 +6,6 @@ export const dashboardContainer = style([
     colFlexContainer,
     {
         gap: vars.space.m,
+        width: '100%'
     },
 ])
