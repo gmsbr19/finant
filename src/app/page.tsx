@@ -3,7 +3,7 @@ import { getDailyHistory } from "@/services/transactions"
 import { HistoryTransaction } from "@/components/HistoryTransaction/HistoryTransaction"
 import { getTransactionVariant } from "@/utils/helpers"
 import { formatCurrency } from "@/utils/format"
-import HomeCardContainer from "@/components/Dashboard/HomeCardContainer/HomeCardContainer"
+import HomeCardContainer from "@/components/HomeCardContainer/HomeCardContainer"
 import CategoryHomeCard, {
     CategoryHomeCardProps,
 } from "@/components/CategoryHomeCard/CategoryHomeCard"
