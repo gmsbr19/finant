@@ -1,35 +1,17 @@
 import CategoryHomeCard from "@/components/CategoryHomeCard/CategoryHomeCard"
 import * as styles from "./HomeCardContainer.css"
 import { CategoryHomeCardProps } from "@/components/CategoryHomeCard/CategoryHomeCard"
+import { ReactNode } from "react"
 
-const HomeCardContainer = () => {
-    const cardsInfo: CategoryHomeCardProps[] = [
-        {
-            currentValue: 2000,
-            maxValue: 2500,
-            variant: "survival",
-        },
-        {
-            currentValue: 543,
-            maxValue: 450,
-            variant: "eudaimonia",
-        },
-        {
-            currentValue: 234,
-            maxValue: 700,
-            variant: "resilience",
-        },
-    ]
+type HomeCardContainerProps = {
+    colNums: number,
+    children: ReactNode
+}
 
+const HomeCardContainer = ({colNums, children}: HomeCardContainerProps) => {
     return (
-        <div className={styles.homeCardContainer}>
-            {cardsInfo.map((c) => (
-                <CategoryHomeCard
-                    currentValue={c.currentValue}
-                    maxValue={c.maxValue}
-                    variant={c.variant}
-                />
-            ))}
+        <div className={styles.homeCardContainer} style={{gridTemplateColumns: `repeat(${colNums}, 1fr)`}}>
+            {children}
         </div>
     )
 }
