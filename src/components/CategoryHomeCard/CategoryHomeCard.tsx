@@ -2,7 +2,7 @@ import * as styles from "./CategoryHomeCard.css"
 import { vars } from "@/styles/theme.css"
 import { formatCurrency } from "@/utils/format"
 
-type variants = "survival" | "eudaimonia" | "resilience"
+type variants = "survival" | "eudaimonia" | "resilience" | "income" | "expenses"
 
 type VariantColorMap = Record<variants, string>
 
@@ -16,6 +16,16 @@ const variantColorMap: VariantColorMap = {
     survival: vars.colors.survival,
     eudaimonia: vars.colors.eudaimonia,
     resilience: vars.colors.resilience,
+    income: vars.colors.income,
+    expenses: vars.colors.danger,
+}
+
+const variantLabelMap: Record<variants, string> = {
+    income: "Previsto: ",
+    expenses: "Previsto: ",
+    resilience: "Meta: ",
+    survival: "Disponível: ",
+    eudaimonia: "Disponível: "
 }
 
 const CategoryHomeCard = ({
@@ -60,9 +70,9 @@ const CategoryHomeCard = ({
             </div>
             <div className={styles.availableMoneyContainer}>
                 <p className={styles.availableMoneyLabel}>
-                    {variant == "resilience" ? "Meta: " : "Disponível: "}{" "}
+                    {variantLabelMap[variant]}
                 </p>
-                {variant == "resilience" ? (
+                {variant == "resilience" ||variant == "income" || variant == "expenses" ? (
                     <p
                         className={styles.availableMoneyValue}
                         style={{
@@ -74,8 +84,9 @@ const CategoryHomeCard = ({
                         {formatCurrency(maxValue)}
                     </p>
                 ) : (
-                    <p className={styles.availableMoneyValue}
-                    style={{
+                    <p
+                        className={styles.availableMoneyValue}
+                        style={{
                             color: isOutOfBudget
                                 ? vars.colors.danger
                                 : vars.colors.textPrimary,
