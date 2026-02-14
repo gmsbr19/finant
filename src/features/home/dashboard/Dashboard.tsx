@@ -4,8 +4,17 @@ import * as typo from "@/styles/typography.css"
 import CategoryHomeCard from "@/components/CategoryHomeCard/CategoryHomeCard"
 import { CategoryHomeCardProps } from "@/components/CategoryHomeCard/CategoryHomeCard"
 import { vars } from "@/styles/theme.css"
+import { getTransferTypeTotals } from "@/services/categories"
 
-const Dashboard = () => {
+type DashboardProps = {
+    year: number,
+    month: number
+}
+
+const Dashboard = async ({ year, month }: DashboardProps) => {
+    const incomeTotal = await getTransferTypeTotals(year, month, "INCOME")
+    const expenseTotal = await getTransferTypeTotals(year, month, "EXPENSE")
+
     const categoryCards: CategoryHomeCardProps[] = [
         {
             title: "Survival",
@@ -39,20 +48,20 @@ const Dashboard = () => {
     const moneyCards: CategoryHomeCardProps[] = [
         {
             title: "Income",
-            currentValue: 3000,
-            maxValue: 3500,
+            currentValue: incomeTotal.settled,
+            maxValue: incomeTotal.expected,
             color: vars.colors.income,
             footerLabel: "Previsto: ",
-            footerValue: 3500,
+            footerValue: incomeTotal.expected,
             status: "normal",
         },
         {
             title: "Expenses",
-            currentValue: 2000,
-            maxValue: 2500,
+            currentValue: expenseTotal.settled,
+            maxValue: expenseTotal.expected,
             color: vars.colors.danger,
             footerLabel: "Previsto: ",
-            footerValue: 2500,
+            footerValue: expenseTotal.expected,
             status: "normal",
         },
     ]

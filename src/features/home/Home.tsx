@@ -5,7 +5,7 @@ import * as styles from './Home.css';
 export const Home = () => {
     return (
         <div className={styles.homeContainer}>
-            <Dashboard />
+            <Dashboard year={2026} month={2} />
             <History />
         </div>
     );

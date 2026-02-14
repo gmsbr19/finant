@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/prisma"
+import { getMonthDateInterval } from "@/utils/helpers"
 
 export type GroupedTransactions = Record<string, Awaited<ReturnType<typeof getRawTransactions>>>
 
 async function getRawTransactions(year: number, month: number) {
-    const start = new Date(Date.UTC(year, month - 1, 1))
-    const end = new Date(Date.UTC(year, month, 1))
+    const {start, end} = getMonthDateInterval(year, month)
 
     return await prisma.transaction.findMany({
         where: {
