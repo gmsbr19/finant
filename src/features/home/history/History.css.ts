@@ -1,6 +1,6 @@
 import { colFlexContainer } from "@/styles/containers.css"
 import { vars } from "@/styles/theme.css"
-import { display } from "@/styles/typography.css"
+import { h1 } from "@/styles/typography.css"
 import { style } from "@vanilla-extract/css"
 
 export const historyContainer = style([
@@ -17,8 +17,6 @@ export const timeline = style({
     gap: vars.space.m,
     width: "100%",
 })
-
-export const title = style([display])
 
 export const groupedTransactionsContainer = style({
     display: "flex",

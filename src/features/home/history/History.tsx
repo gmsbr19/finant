@@ -3,13 +3,14 @@ import * as styles from "./History.css"
 import { HistoryTransaction } from "@/components/HistoryTransaction/HistoryTransaction";
 import { formatCurrency, formatDateLabel } from "@/utils/format";
 import { getTransactionVariant } from "@/utils/helpers";
+import { h1 } from "@/styles/typography.css";
 
 const History = async () => {
     const groupedTransactions = await getDailyHistory(2026, 2)
     const days = Object.keys(groupedTransactions)
     return (
         <section className={styles.historyContainer}>
-            <h1 className={styles.title}>Histórico</h1>
+            <h1 className={h1}>Histórico</h1>
             <div className={styles.timeline}>
                 {days.map((day) => (
                     <div key={day} className={styles.transactionsContainer}>

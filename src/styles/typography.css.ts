@@ -8,6 +8,14 @@ export const display = style({
     color: vars.colors.textPrimary,
 })
 
+export const h1 = style([
+    display,
+    {
+        fontSize: vars.fontSizes.h1,
+        fontWeight: vars.fontWeights.semibold,
+    },
+])
+
 const body = style({
     fontStyle: "normal",
     fontWeight: vars.fontWeights.medium,
@@ -17,8 +25,8 @@ const body = style({
 export const bodyS = style([
     body,
     {
-        fontSize: vars.fontSizes.bodyS
-    }
+        fontSize: vars.fontSizes.bodyS,
+    },
 ])
 
 export const bodyM = style([

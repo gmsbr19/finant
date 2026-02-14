@@ -58,7 +58,7 @@ const Dashboard = () => {
     ]
     return (
         <section className={styles.dashboardContainer}>
-            <h1 className={typo.display}>Dashboard</h1>
+            <h1 className={typo.h1}>Dashboard</h1>
             <HomeCardContainer colNums={2}>
                 {moneyCards.map((c) => (
                     <CategoryHomeCard key={c.title} {...c} />
