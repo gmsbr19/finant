@@ -3,7 +3,7 @@ import { getDailyHistory } from "@/services/transactions"
 import { HistoryTransaction } from "@/components/HistoryTransaction/HistoryTransaction"
 import { getTransactionVariant } from "@/utils/helpers"
 import { formatCurrency } from "@/utils/format"
-import CategoryHomeCard from "@/components/CategoryHomeCard/CategoryHomeCard"
+import HomeCardContainer from "@/components/Dashboard/HomeCardContainer/HomeCardContainer"
 
 export default async function Home() {
     const groupedTransactions = await getDailyHistory(2026, 2)
@@ -11,7 +11,7 @@ export default async function Home() {
 
     return (
         <div className={styles.background}>
-            <CategoryHomeCard />
+            <HomeCardContainer />
             <h1 className={styles.title}>Histórico</h1>
             <div className={styles.timeline}>
                 {days.map((day) => (
@@ -25,7 +25,6 @@ export default async function Home() {
                                     key={t.id}
                                     description={t.description}
                                     amount={formatCurrency(t.amount)}
-                                    categoryName={t.category?.name ?? "Geral"}
                                     variant={getTransactionVariant(t)}
                                 />
                             ))}

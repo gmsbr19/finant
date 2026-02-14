@@ -1,12 +1,20 @@
 import { style } from "@vanilla-extract/css"
 import { vars } from "../styles/theme.css"
+import { colFlexContainer } from "@/styles/containers.css"
 
-export const background = style({
-    paddingTop: vars.space.xl,
-    paddingBottom: vars.space.xl,
-    paddingLeft: "25%",
-    paddingRight: "25%",
-})
+export const background = style([
+    colFlexContainer,
+    {
+        backgroundColor: "#000000",
+        paddingTop: vars.space.xl,
+        paddingBottom: vars.space.xl,
+        paddingLeft: "20%",
+        paddingRight: "20%",
+        width: '100%',
+        height: '100%',
+        gap: vars.space.l
+    },
+])
 
 export const dateLabel = style({
     color: vars.colors.textSecondary,
@@ -20,6 +28,7 @@ export const timeline = style({
     display: "flex",
     flexDirection: "column",
     gap: vars.space.m,
+    width: '100%'
 })
 
 export const title = style({
@@ -34,6 +43,7 @@ export const groupedTransactionsContainer = style({
     display: "flex",
     flexDirection: "column",
     gap: vars.space.m,
+    width: '100%'
 })
 
 export const transactionsContainer = style({
