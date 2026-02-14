@@ -1,15 +1,12 @@
 import Dashboard from "./dashboard/Dashboard";
 import History from "./history/History";
+import * as styles from './Home.css';
 
 export const Home = () => {
     return (
-        <div>
-            <section>
-                <Dashboard></Dashboard>
-            </section>
-            <section>
-                <History></History>
-            </section>
+        <div className={styles.homeContainer}>
+            <Dashboard />
+            <History />
         </div>
     );
 }

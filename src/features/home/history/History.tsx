@@ -8,7 +8,7 @@ const History = async () => {
     const groupedTransactions = await getDailyHistory(2026, 2)
     const days = Object.keys(groupedTransactions)
     return (
-        <div className={styles.historyContainer}>
+        <section className={styles.historyContainer}>
             <h1 className={styles.title}>Histórico</h1>
             <div className={styles.timeline}>
                 {days.map((day) => (
@@ -30,7 +30,7 @@ const History = async () => {
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 }
  

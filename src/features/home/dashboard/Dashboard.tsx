@@ -4,7 +4,6 @@ import * as typo from "@/styles/typography.css"
 import CategoryHomeCard from "@/components/CategoryHomeCard/CategoryHomeCard"
 import { CategoryHomeCardProps } from "@/components/CategoryHomeCard/CategoryHomeCard"
 import { vars } from "@/styles/theme.css"
-import { formatCurrency } from "@/utils/format"
 
 const Dashboard = () => {
     const categoryCards: CategoryHomeCardProps[] = [
@@ -44,7 +43,7 @@ const Dashboard = () => {
             maxValue: 3500,
             color: vars.colors.income,
             footerLabel: "Previsto: ",
-            footerValue: 3500 - 3000,
+            footerValue: 3500,
             status: "normal",
         },
         {
@@ -53,12 +52,12 @@ const Dashboard = () => {
             maxValue: 2500,
             color: vars.colors.danger,
             footerLabel: "Previsto: ",
-            footerValue: 2500 - 2000,
+            footerValue: 2500,
             status: "normal",
         },
     ]
     return (
-        <div className={styles.dashboardContainer}>
+        <section className={styles.dashboardContainer}>
             <h1 className={typo.display}>Dashboard</h1>
             <HomeCardContainer colNums={2}>
                 {moneyCards.map((c) => (
@@ -70,7 +69,7 @@ const Dashboard = () => {
                     <CategoryHomeCard key={c.title} {...c} />
                 ))}
             </HomeCardContainer>
-        </div>
+        </section>
     )
 }
 
