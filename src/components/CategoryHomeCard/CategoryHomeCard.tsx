@@ -1,57 +1,35 @@
+import { formatCurrency } from "@/utils/format"
 import * as styles from "./CategoryHomeCard.css"
 import { vars } from "@/styles/theme.css"
-import { formatCurrency } from "@/utils/format"
-
-type variants = "survival" | "eudaimonia" | "resilience" | "income" | "expenses"
-
-type VariantColorMap = Record<variants, string>
 
 export type CategoryHomeCardProps = {
+    title: string
     currentValue: number
     maxValue: number
-    variant: variants
-}
-
-const variantColorMap: VariantColorMap = {
-    survival: vars.colors.survival,
-    eudaimonia: vars.colors.eudaimonia,
-    resilience: vars.colors.resilience,
-    income: vars.colors.income,
-    expenses: vars.colors.danger,
-}
-
-const variantLabelMap: Record<variants, string> = {
-    income: "Previsto: ",
-    expenses: "Previsto: ",
-    resilience: "Meta: ",
-    survival: "Disponível: ",
-    eudaimonia: "Disponível: "
+    color: string
+    footerLabel: string // "Disponível", "Meta", etc.
+    footerValue: number // O resultado já calculado
+    status: "normal" | "danger" | "success" // O sinalizador
 }
 
 const CategoryHomeCard = ({
+    title,
     currentValue,
     maxValue,
-    variant,
+    color,
+    footerLabel,
+    footerValue,
+    status,
 }: CategoryHomeCardProps) => {
     const rawPercentage = (currentValue * 100) / maxValue
 
     const progressSize = Math.min(100, rawPercentage)
 
-    const isOutOfBudget = rawPercentage > 100
-
-    const barColor = isOutOfBudget
-        ? vars.colors.danger
-        : variantColorMap[variant]
-
     return (
         <div className={styles.card}>
             <div className={styles.cardTop}>
-                <p
-                    className={styles.cardTopLabel}
-                    style={{ color: variantColorMap[variant] }}
-                >
-                    {variant.charAt(0).toUpperCase() +
-                        variant.slice(1).toLowerCase()}
+                <p className={styles.cardTopLabel} style={{ color: color }}>
+                    {title}
                 </p>
                 <p className={styles.valueLabel}>
                     {formatCurrency(currentValue)}
@@ -60,7 +38,7 @@ const CategoryHomeCard = ({
                     <div className={styles.progressBarBackground}>
                         <div
                             style={{
-                                backgroundColor: variantColorMap[variant],
+                                backgroundColor: color,
                                 width: progressSize + "%",
                             }}
                             className={styles.progressBarFill}
@@ -69,32 +47,18 @@ const CategoryHomeCard = ({
                 </div>
             </div>
             <div className={styles.availableMoneyContainer}>
-                <p className={styles.availableMoneyLabel}>
-                    {variantLabelMap[variant]}
-                </p>
-                {variant == "resilience" ||variant == "income" || variant == "expenses" ? (
-                    <p
-                        className={styles.availableMoneyValue}
-                        style={{
-                            color: isOutOfBudget
-                                ? vars.colors.income
-                                : vars.colors.textPrimary,
-                        }}
-                    >
-                        {formatCurrency(maxValue)}
-                    </p>
-                ) : (
-                    <p
-                        className={styles.availableMoneyValue}
-                        style={{
-                            color: isOutOfBudget
+                <p className={styles.availableMoneyLabel}>{footerLabel}</p>
+                <p
+                    className={styles.availableMoneyValue}
+                    style={{
+                        color:
+                            status == "danger"
                                 ? vars.colors.danger
                                 : vars.colors.textPrimary,
-                        }}
-                    >
-                        {formatCurrency(maxValue - currentValue)}
-                    </p>
-                )}
+                    }}
+                >
+                    {formatCurrency(footerValue)}
+                </p>
             </div>
         </div>
     )
