@@ -15,3 +15,7 @@ export const background = style([
         gap: vars.space.l
     },
 ])
+
+export const body = style({
+    display: 'flex',
+})

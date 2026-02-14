@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 
 import "@/styles/global.css"
+import NavSidebar from "@/components/navigation/NavSidebar"
 
 export const metadata: Metadata = {
     title: "Finant",
@@ -19,7 +20,10 @@ export default function RootLayout({
             lang="pt-BR"
             className={`${GeistSans.variable} ${GeistMono.variable}`}
         >
-            <body>{children}</body>
+            <body>
+                <NavSidebar />
+                {children}
+            </body>
         </html>
     )
 }

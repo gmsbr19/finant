@@ -52,7 +52,7 @@ export const lineHeights = {
 } as const
 
 export const radii = {
-    button: "6px",
+    button: "8px",
     card: "12px",
     full: "9999px",
 } as const

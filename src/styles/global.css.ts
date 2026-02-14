@@ -8,6 +8,7 @@ globalStyle('body', {
   backgroundColor: vars.colors.bgBase,
   color: vars.colors.textPrimary,
   WebkitFontSmoothing: 'antialiased',
+  display: 'flex'
 });
 
 globalStyle('*', {
