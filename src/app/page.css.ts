@@ -36,7 +36,6 @@ export const title = style({
     fontWeight: vars.fontWeights.semibold,
     lineHeight: vars.lineHeights.headings,
     color: vars.colors.textPrimary,
-    marginBottom: vars.space.l,
 })
 
 export const groupedTransactionsContainer = style({
