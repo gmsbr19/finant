@@ -1,6 +1,13 @@
 import { style } from "@vanilla-extract/css"
 import { vars } from "./theme.css"
 
+export const display = style({
+    fontSize: vars.fontSizes.display,
+    fontWeight: vars.fontWeights.bold,
+    lineHeight: vars.lineHeights.headings,
+    color: vars.colors.textPrimary,
+})
+
 const body = style({
     fontStyle: "normal",
     fontWeight: vars.fontWeights.medium,
