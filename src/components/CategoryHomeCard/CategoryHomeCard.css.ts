@@ -25,12 +25,7 @@ export const cardTop = style([
     },
 ])
 
-export const cardTopLabel = style([
-    bodyM,
-    {
-        color: vars.colors.survival,
-    },
-])
+export const cardTopLabel = style([bodyM])
 
 export const valueLabelContainer = style([
     colFlexContainer,
@@ -39,41 +34,41 @@ export const valueLabelContainer = style([
     },
 ])
 
-export const valueLabel = style([moneyL,{
-    whiteSpace: 'nowrap'
-}])
+export const valueLabel = style([
+    moneyL,
+    {
+        whiteSpace: "nowrap",
+    },
+])
 
 export const progressBarContainer = style({
-    height: '4px',
-    width: '100%'
+    height: "4px",
+    width: "100%",
 })
 
 export const progressBarBackground = style({
-    height: '100%',
-    width: '100%',
-    backgroundColor: vars.colors.border
+    height: "100%",
+    width: "100%",
+    backgroundColor: vars.colors.border,
 })
 
 export const progressBarFill = style({
-    height: '100%',
+    height: "100%",
 })
 
 export const availableMoneyContainer = style({
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     gap: vars.space.s,
-    justifyContent: 'space-between',
-    width: '100%'
+    justifyContent: "space-between",
+    width: "100%",
 })
 
 export const availableMoneyLabel = style([
     bodyS,
     {
         color: vars.colors.textSecondary,
-    }
+    },
 ])
 
-export const availableMoneyValue = style([
-    moneyM,
-
-])
+export const availableMoneyValue = style([moneyM])

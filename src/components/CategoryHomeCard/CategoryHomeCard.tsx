@@ -1,20 +1,48 @@
-import * as styles from "./styles.css"
+import * as styles from "./CategoryHomeCard.css"
 import { vars } from "@/styles/theme.css"
 import { formatCurrency } from "@/utils/format"
 
-const CategoryHomeCard = () => {
-    const currentValue = 2000
-    const maxValue = 2500
+type variants = "survival" | "eudaimonia" | "resilience"
 
-    // travar em 100 e alterar a cor para vermelho caso passe
-    const progressSize = (currentValue * 100) / maxValue
+type VariantColorMap = Record<variants, string>
 
-    // usar RECIPE para aplicar estilos diferentes do card
+export type CategoryHomeCardProps = {
+    currentValue: number
+    maxValue: number
+    variant: variants
+}
+
+const variantColorMap: VariantColorMap = {
+    survival: vars.colors.survival,
+    eudaimonia: vars.colors.eudaimonia,
+    resilience: vars.colors.resilience,
+}
+
+const CategoryHomeCard = ({
+    currentValue,
+    maxValue,
+    variant,
+}: CategoryHomeCardProps) => {
+    const rawPercentage = (currentValue * 100) / maxValue
+
+    const progressSize = Math.min(100, rawPercentage)
+
+    const isOutOfBudget = rawPercentage > 100
+
+    const barColor = isOutOfBudget
+        ? vars.colors.danger
+        : variantColorMap[variant]
 
     return (
         <div className={styles.card}>
             <div className={styles.cardTop}>
-                <p className={styles.cardTopLabel}>Survival</p>
+                <p
+                    className={styles.cardTopLabel}
+                    style={{ color: variantColorMap[variant] }}
+                >
+                    {variant.charAt(0).toUpperCase() +
+                        variant.slice(1).toLowerCase()}
+                </p>
                 <p className={styles.valueLabel}>
                     {formatCurrency(currentValue)}
                 </p>
@@ -22,17 +50,40 @@ const CategoryHomeCard = () => {
                     <div className={styles.progressBarBackground}>
                         <div
                             style={{
-                                backgroundColor: vars.colors.survival,
-                                width: progressSize + '%',
+                                backgroundColor: variantColorMap[variant],
+                                width: progressSize + "%",
                             }}
                             className={styles.progressBarFill}
-                        ></div>    
+                        ></div>
                     </div>
                 </div>
             </div>
             <div className={styles.availableMoneyContainer}>
-                <p className={styles.availableMoneyLabel}>Disponível: </p>
-                <p className={styles.availableMoneyValue}>{formatCurrency(maxValue - currentValue)}</p>
+                <p className={styles.availableMoneyLabel}>
+                    {variant == "resilience" ? "Meta: " : "Disponível: "}{" "}
+                </p>
+                {variant == "resilience" ? (
+                    <p
+                        className={styles.availableMoneyValue}
+                        style={{
+                            color: isOutOfBudget
+                                ? vars.colors.income
+                                : vars.colors.textPrimary,
+                        }}
+                    >
+                        {formatCurrency(maxValue)}
+                    </p>
+                ) : (
+                    <p className={styles.availableMoneyValue}
+                    style={{
+                            color: isOutOfBudget
+                                ? vars.colors.danger
+                                : vars.colors.textPrimary,
+                        }}
+                    >
+                        {formatCurrency(maxValue - currentValue)}
+                    </p>
+                )}
             </div>
         </div>
     )
