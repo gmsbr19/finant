@@ -1,8 +1,7 @@
-import * as styles from "./styles.css"
+import * as styles from "./HistoryTransaction.css"
 
 interface TransactionProps {
     description: string
-    categoryName: string
     amount: string
     // A variant aqui mata qualquer switch case no meio do HTML
     variant: "income" | "survival" | "eudaimonia" | "resilience" | "transfer"
@@ -10,7 +9,6 @@ interface TransactionProps {
 
 export function HistoryTransaction({
     description,
-    categoryName,
     amount,
     variant,
 }: TransactionProps) {
