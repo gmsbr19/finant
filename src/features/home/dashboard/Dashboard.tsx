@@ -4,7 +4,7 @@ import * as typo from "@/styles/typography.css"
 import CategoryHomeCard from "@/components/CategoryHomeCard/CategoryHomeCard"
 import { CategoryHomeCardProps } from "@/components/CategoryHomeCard/CategoryHomeCard"
 import { vars } from "@/styles/theme.css"
-import { getTransferTypeTotals } from "@/services/categories"
+import { getCategories, getTransferTypeTotals } from "@/services/categories"
 
 type DashboardProps = {
     year: number,
@@ -15,35 +15,43 @@ const Dashboard = async ({ year, month }: DashboardProps) => {
     const incomeTotal = await getTransferTypeTotals(year, month, "INCOME")
     const expenseTotal = await getTransferTypeTotals(year, month, "EXPENSE")
 
-    const categoryCards: CategoryHomeCardProps[] = [
-        {
-            title: "Survival",
-            currentValue: 2000,
-            maxValue: 2500,
-            color: vars.colors.survival,
-            footerLabel: "Disponível: ",
-            footerValue: 2500 - 2000,
-            status: "normal",
-        },
-        {
-            title: "Eudaimonia",
-            currentValue: 320,
-            maxValue: 500,
-            color: vars.colors.eudaimonia,
-            footerLabel: "Disponível: ",
-            footerValue: 500 - 320,
-            status: "normal",
-        },
-        {
-            title: "Resilience",
-            currentValue: 432,
-            maxValue: 500,
-            color: vars.colors.resilience,
-            footerLabel: "Meta: ",
-            footerValue: 500,
-            status: "normal",
-        },
+    const categoriesData = await getCategories(year, month)
+
+    const orderedCategories = [
+        { key: "Survival", color: vars.colors.survival, type: "budget" },
+        { key: "Eudaimonia", color: vars.colors.eudaimonia, type: "budget" },
+        { key: "Resilience", color: vars.colors.resilience, type: "target" },
     ]
+
+    const categoryCards: CategoryHomeCardProps[] = orderedCategories.map((config) => {
+        const data = categoriesData[config.key] || { 
+            spent: 0, 
+            budget: 0, 
+            available: 0, 
+            color: '#ccc',
+            status: 'normal' 
+        }
+
+        const isBudget = config.type === "budget"
+        const isExceeded = data.spent > data.budget
+
+        let status: "normal" | "danger" | "success" = "normal"
+        if (isBudget) {
+            status = isExceeded ? "danger" : "normal"
+        } else {
+            status = "success"
+        }
+
+        return {
+            title: config.key,
+            currentValue: data.spent,
+            maxValue: data.budget,
+            color: config.color,
+            footerLabel: "Disponível: ",
+            footerValue: isBudget ? Math.abs(data.available) : data.spent,
+            status: status,
+        }
+    })
 
     const moneyCards: CategoryHomeCardProps[] = [
         {
