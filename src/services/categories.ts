@@ -43,13 +43,28 @@ export async function getTransferTypeTotals(
 
 export async function getCategories(year: number, month: number) {
     const { start, end } = getMonthDateInterval(year, month)
-    const transactionsByChild = await prisma.transaction.groupBy({
-        by: ["categoryId", "isPaid"],
-        _sum: { amount: true },
+
+    const transactions = await prisma.transaction.findMany({
         where: {
             date: { gte: start, lt: end },
+            type: "EXPENSE",
+            categoryId: { not: null }
         },
+        select: {
+            categoryId: true,
+            amount: true,
+        }
     })
+
+    const spendingMap = transactions.reduce<Record<number, number>>((acc, curr) => {
+        const id = curr.categoryId as number;
+        
+        // Aqui temos controle total da precisão
+        const amount = curr.amount?.toNumber() ?? 0;
+        
+        acc[id] = (acc[id] || 0) + amount;
+        return acc;
+    }, {})
 
     const categories = await prisma.category.findMany({
         select: {
@@ -59,16 +74,10 @@ export async function getCategories(year: number, month: number) {
             monthlyBudget: true,
             color: true,
             parent: {
-                select: {
-                    name: true,
-                    monthlyBudget: true,
-                    color: true,
-                },
+                select: { name: true, monthlyBudget: true, color: true },
             },
         },
     })
-
-    const categoryMap = new Map(categories.map((c) => [c.id, c]))
 
     type CategorySummary = {
         name: string
@@ -81,42 +90,27 @@ export async function getCategories(year: number, month: number) {
 
     const report: Record<string, CategorySummary> = {}
 
-    categories.forEach(cat => {
-        const isParent = !cat.parentId;
-        if (isParent && !report[cat.name]) {
-             report[cat.name] = {
-                name: cat.name,
-                available: Number(cat.monthlyBudget || 0),
+    for (const cat of categories) {
+        const targetData = cat.parent ?? cat
+        const targetName = targetData.name
+
+        if (!report[targetName]) {
+            report[targetName] = {
+                name: targetName,
+                available: Number(targetData.monthlyBudget || 0),
                 spent: 0,
-                budget: Number(cat.monthlyBudget || 0),
-                color: cat.color || "#ccc",
-                status: "normal"
-            }
-        }
-    })
-
-    for (const group of transactionsByChild) {
-        const category = categoryMap.get(group.categoryId as number)
-        if (!category) continue
-
-        const parentData = category.parent ?? category
-        const parentName = parentData.name
-
-        // Se por algum motivo não foi inicializado acima (ex: acabou de criar)
-        if (!report[parentName]) {
-            report[parentName] = { 
-                name: parentName,
-                available: Number(parentData.monthlyBudget || 0), 
-                spent: 0, 
-                budget: Number(parentData.monthlyBudget || 0),
-                color: parentData.color || "#ccc",
+                budget: Number(targetData.monthlyBudget || 0),
+                color: targetData.color || "#ccc",
                 status: "normal"
             }
         }
 
-        const amount = Number(group._sum.amount || 0)
-        report[parentName].spent += amount
-        report[parentName].available -= amount
+        const spentInCategory = spendingMap[cat.id] || 0;
+
+        if (spentInCategory > 0) {
+            report[targetName].spent += spentInCategory;
+            report[targetName].available -= spentInCategory;
+        }
     }
 
     return report
