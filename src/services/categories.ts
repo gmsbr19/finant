@@ -1,3 +1,4 @@
+'use server'
 import { prisma } from "@/lib/prisma"
 import { getMonthDateInterval } from "@/utils/helpers"
 import { $Enums } from "@/generated"
@@ -114,4 +115,18 @@ export async function getCategories(year: number, month: number) {
     }
 
     return report
+}
+
+export async function getNamesAndIds() {
+    return await prisma.category.findMany({
+        select: {
+            id: true,
+            name: true
+        },
+        where: {
+            parentId: {
+                not: null
+            }
+        }
+    })
 }

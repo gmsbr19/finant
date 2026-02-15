@@ -1,14 +1,15 @@
 import { ReactNode } from "react"
 import * as styles from "./FormField.css"
 
-type InputProps = {
+type FormFieldProps = {
     label: string
     children: ReactNode
+    props?: React.LabelHTMLAttributes<HTMLLabelElement>
 }
 
-const FormField = ({ label, children }: InputProps) => {
+const FormField = ({ label, children, props }: FormFieldProps) => {
     return (
-        <label className={styles.label}>
+        <label {...props} className={styles.label}>
             {label}
             {children}
         </label>

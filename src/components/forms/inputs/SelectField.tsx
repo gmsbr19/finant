@@ -6,29 +6,19 @@ type Option = {
 }
 
 type SelectFieldProps = {
-    props: React.InputHTMLAttributes<HTMLInputElement>
+    props: React.SelectHTMLAttributes<HTMLSelectElement>
     options: Option[]
 }
 
 const SelectField = ({ props, options }: SelectFieldProps) => {
     return (
-        <>
-            <input
-                
-                {...props}
-                type="text"
-                list="catdtl"
-                className={styles.inputField}
-            />
-
-            <datalist id="catdtl">
-                {options.map((c) => (
-                    <option key={c.value} value={c.value}>
-                        {c.label}
-                    </option>
-                ))}
-            </datalist>
-        </>
+        <select {...props} id="catdtl" className={styles.inputField}>
+            {options.map((c) => (
+                <option key={c.value} value={c.value}>
+                    {c.label}
+                </option>
+            ))}
+        </select>
     )
 }
 

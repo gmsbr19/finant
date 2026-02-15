@@ -24,6 +24,7 @@ export const label = style([
     {
         color: vars.colors.textSecondary,
         fontSize: vars.fontSizes.bodyS,
+        alignSelf: 'end'
     },
 ])
 

@@ -3,6 +3,9 @@ import { vars } from '@/styles/theme.css'
 import { style } from '@vanilla-extract/css'
 
 export const nav = style([colFlexContainer, {
+    position: 'fixed',
+    top: 0,
+    left: 0,
     padding: vars.space.m,
     gap: vars.space.s,
     height: '100vh',
