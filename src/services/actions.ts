@@ -1,6 +1,7 @@
 'use server'
 
 import { prisma } from "@/lib/prisma"
+import { revalidatePath } from "next/cache"
 
 export async function createTransaction(data: any) {
     try {
@@ -23,6 +24,8 @@ export async function createTransaction(data: any) {
         const transaction = await prisma.transaction.create({
             data: payload
         })
+
+        revalidatePath("/")
         
         return { success: true, data: {...transaction, amount: Number(transaction.amount)} }
         

@@ -4,6 +4,7 @@ import { HistoryTransaction } from "@/components/HistoryTransaction/HistoryTrans
 import { formatCurrency, formatDateLabel } from "@/utils/format";
 import { getTransactionVariant } from "@/utils/helpers";
 import { h1 } from "@/styles/typography.css";
+import { AnimateList } from "./historyAnimate";
 
 const History = async () => {
     const groupedTransactions = await getDailyHistory(2026, 2)
@@ -11,13 +12,13 @@ const History = async () => {
     return (
         <section className={styles.historyContainer}>
             <h1 className={h1}>Histórico</h1>
-            <div className={styles.timeline}>
+            <AnimateList className={styles.timeline}>
                 {days.map((day) => (
                     <div key={day} className={styles.transactionsContainer}>
                         <h3 className={styles.dateLabel}>
                             {formatDateLabel(day)}
                         </h3>
-                        <div className={styles.groupedTransactionsContainer}>
+                        <AnimateList className={styles.groupedTransactionsContainer}>
                             {groupedTransactions[day].map((t) => (
                                 <HistoryTransaction
                                     key={t.id}
@@ -26,11 +27,11 @@ const History = async () => {
                                     variant={getTransactionVariant(t)}
                                 />
                             ))}
-                        </div>
+                        </AnimateList>
                         <div className={styles.divider}></div>
                     </div>
                 ))}
-            </div>
+            </AnimateList>
         </section>
     );
 }
