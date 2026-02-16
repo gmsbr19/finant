@@ -13,7 +13,7 @@ export const card = style([
 
         borderRadius: vars.radii.card,
         border: `1px solid ${vars.colors.border}`,
-        background: vars.colors.bgOverlay,
+        background: '#000',
     },
 ])
 
