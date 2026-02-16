@@ -3,9 +3,9 @@ export function getTransactionVariant(t: any) {
 
     const mainCategoryName = t.category?.parent?.name || t.category?.name || ""
 
-    if (mainCategoryName.includes("[S]")) return "survival"
-    if (mainCategoryName.includes("[L]")) return "eudaimonia"
-    if (mainCategoryName.includes("[R]")) return "resilience"
+    if (mainCategoryName.includes("Survival")) return "survival"
+    if (mainCategoryName.includes("Eudaimonia")) return "eudaimonia"
+    if (mainCategoryName.includes("Resilience")) return "resilience"
 
     return "transfer"
 }
