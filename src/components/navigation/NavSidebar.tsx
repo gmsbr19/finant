@@ -26,7 +26,7 @@ const NavSidebar = () => {
     return (
         <nav className={styles.nav}>
             {navLinks.map(c => (
-                <NavItem {...c} active={c.path === pathname} />
+                <NavItem key={c.path} {...c} active={c.path === pathname} />
             ))}
         </nav>
     );
