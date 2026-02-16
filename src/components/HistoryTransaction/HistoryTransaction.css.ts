@@ -1,12 +1,18 @@
 import { recipe } from "@vanilla-extract/recipes"
 import { vars } from "@/styles/theme.css"
 import { style } from "@vanilla-extract/css"
+import { growOnHoverAnim } from "@/styles/animations.css"
 
 const baseRow = style({
     display: "flex",
     flexDirection: "column",
     alignItems: "start",
-    paddingLeft: vars.space.m,
+    padding: vars.space.m,
+    borderRadius: vars.radii.card,
+    cursor: 'pointer',
+    ":hover": {
+        backgroundColor: vars.colors.bgOverlay
+    }
 })
 
 export const typeLabel = style({
@@ -29,7 +35,7 @@ export const nameAndValue = style({
 })
 
 export const transactionRecipe = recipe({
-    base: baseRow,
+    base: [baseRow, growOnHoverAnim],
 
     variants: {
         type: {
