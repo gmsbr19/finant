@@ -117,7 +117,7 @@ export async function getCategories(year: number, month: number) {
     return report
 }
 
-export async function getNamesAndIds() {
+export async function getCategoriesNamesAndIds() {
     return await prisma.category.findMany({
         select: {
             id: true,
