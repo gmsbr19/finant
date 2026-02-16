@@ -1,6 +1,10 @@
+'use client'
+
 import { formatCurrency } from "@/utils/format"
 import * as styles from "./CategoryHomeCard.css"
 import { vars } from "@/styles/theme.css"
+import { assignInlineVars } from "@vanilla-extract/dynamic"
+import { CSSProperties } from "react"
 
 export type CategoryHomeCardProps = {
     title: string
@@ -26,7 +30,7 @@ const CategoryHomeCard = ({
     const progressSize = Math.min(100, rawPercentage)
 
     return (
-        <div className={styles.card}>
+        <div className={styles.card} style={assignInlineVars({ [styles.cardColorVar]: color }) as CSSProperties}>
             <div className={styles.cardTop}>
                 <p className={styles.cardTopLabel} style={{ color: color }}>
                     {title}

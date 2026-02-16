@@ -1,7 +1,9 @@
-import { style } from "@vanilla-extract/css"
+import { createVar, style } from "@vanilla-extract/css"
 import { vars } from "@/styles/theme.css"
 import { bodyM, bodyS, moneyL, moneyM } from "@/styles/typography.css"
 import { colFlexContainer } from "@/styles/containers.css"
+
+export const cardColorVar = createVar()
 
 export const card = style([
     colFlexContainer,
@@ -14,6 +16,12 @@ export const card = style([
         borderRadius: vars.radii.card,
         border: `1px solid ${vars.colors.border}`,
         background: '#000',
+        transition: 'all 0.2s ease-in-out',
+        ":hover": {
+            cursor: 'pointer',
+            border: `1px solid ${cardColorVar}`,
+            transform: 'scale(1.04)'
+        }
     },
 ])
 

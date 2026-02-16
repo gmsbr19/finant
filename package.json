@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.4.0",
+    "@vanilla-extract/dynamic": "^2.1.5",
     "@vanilla-extract/recipes": "^0.5.7",
     "better-sqlite3": "^12.6.2",
     "csv-parse": "^6.1.0",
