@@ -20,7 +20,7 @@ export default function RootLayout({
             lang="pt-BR"
             className={`${GeistSans.variable} ${GeistMono.variable}`}
         >
-            <body>
+            <body suppressHydrationWarning>
                 <NavSidebar />
                 <main style={{ flex: 1 }}>{children}</main>
             </body>
