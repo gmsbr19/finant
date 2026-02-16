@@ -8,19 +8,29 @@ import { useState } from "react"
 import { Transaction } from "@/generated"
 import RadioField from "@/components/forms/inputs/RadioField"
 
+import { assignInlineVars } from "@vanilla-extract/dynamic"
+
 type ActiveType = "income" | "expense" | null
 
 type BasicInfoType = { name: string; id: number }
 
 type TransactionFormProps = {
-    categories: BasicInfoType[],
+    categories: BasicInfoType[]
     accounts: BasicInfoType[]
 }
+
+const radioOptions = [
+    { label: "Débito", value: "debit" },
+    { label: "Crédito", value: "credit" },
+]
 
 const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
     const [activeType, setActiveType] = useState<ActiveType>(null)
     const [formStatus, setFormStatus] = useState<"pending" | "loading" | null>()
-    const [formData, setFormData] = useState<Partial<Transaction>>({})
+    const [formData, setFormData] = useState<Partial<Transaction>>({
+        installmentTotal: 1,
+    })
+    const [isCredit, setIsCredit] = useState<boolean>(false)
 
     const categoriesSelectOptions = categories.map((c) => ({
         label: c.name,
@@ -30,6 +40,11 @@ const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
     const accountSelectOptions = accounts.map((c) => ({
         label: c.name,
         value: c.id,
+    }))
+
+    const installmentOptions = Array.from({ length: 12 }, (_, i) => ({
+        label: String(i + 1),
+        value: i + 1,
     }))
 
     const isFormValid = Boolean(
@@ -120,19 +135,40 @@ const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target
+
+        let finalValue: string | number = value
+
+        const valueType = typeof value
+
+        if (valueType === "number" || name === "installmentTotal") {
+            finalValue = Number(value)
+        }
+
         setFormData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: finalValue,
         }))
     }
 
+    const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsCredit(e.target.value === "credit")
+        e.target.value === "debit" &&
+            setFormData((prev) => ({ ...prev, installmentTotal: 1 }))
+    }
+
     console.log(formData)
+    console.log(isCredit)
 
     return (
         <div className={styles.popupContainer}>
             {activeType ? (
                 <>
-                    <form className={styles.transactionForm}>
+                    <form
+                        className={styles.transactionForm}
+                        style={assignInlineVars({
+                            [styles.formRowsAmount]: isCredit ? "4" : "3",
+                        })}
+                    >
                         <FormField label="Nome">
                             <InputField
                                 name="description"
@@ -171,8 +207,10 @@ const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
                         </FormField>
                         <FormField label="Tipo">
                             <RadioField
-                                options={["Débito", "Crédito"]}
-                                props={{}}
+                                options={radioOptions}
+                                name="transactionType"
+                                onChange={handleRadioChange}
+                                value={isCredit ? "credit" : "debit"}
                             />
                         </FormField>
                         <FormField label="Conta">
@@ -185,6 +223,21 @@ const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
                                 options={accountSelectOptions}
                             />
                         </FormField>
+                        {isCredit && (
+                            <FormField
+                                props={{ style: { gridColumn: "1/3" } }}
+                                label="Parcelas"
+                            >
+                                <SelectField
+                                    props={{
+                                        name: "installmentTotal",
+                                        onChange: handleSelectChange,
+                                        value: formData?.installmentTotal || "",
+                                    }}
+                                    options={installmentOptions}
+                                />
+                            </FormField>
+                        )}
                     </form>
                     {renderFormButtons()}
                 </>

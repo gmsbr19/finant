@@ -32,7 +32,7 @@ export const inputField = style([
     background,
     {
         height: "42px",
-        width: "220px",
+        width: "100%",
         color: vars.colors.textPrimary,
 
         ":focus": {

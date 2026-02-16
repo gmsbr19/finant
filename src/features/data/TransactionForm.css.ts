@@ -1,13 +1,15 @@
 import { colFlexContainer, surfaceBg } from "@/styles/containers.css"
 import { space, vars } from "@/styles/theme.css"
-import { style } from "@vanilla-extract/css"
+import { createVar, style } from "@vanilla-extract/css"
+
+export const formRowsAmount = createVar()
 
 export const transactionForm = style([
     surfaceBg,
     {
         display: "grid",
         gridTemplateColumns: "repeat(2, 1fr)",
-        gridTemplateRows: "repeat(3, 1fr)",
+        gridTemplateRows: `repeat(${formRowsAmount}, 1fr)`,
         width: "fit-content",
     },
 ])

@@ -1,22 +1,39 @@
 import React from "react"
-import * as styles from './RadioField.css';
+import * as styles from "./RadioField.css"
 
-type RadioFieldProps = {
-    options: string[]
-    props: React.InputHTMLAttributes<HTMLInputElement>
+type RadioOption = {
+    label: string
+    value: string
 }
 
-const RadioField = ({options, props}: RadioFieldProps) => {
+type RadioFieldProps = {
+    name: string
+    value: string
+    options: RadioOption[]
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+const RadioField = ({ name, value, options, onChange }: RadioFieldProps) => {
     return (
         <div className={styles.radioFieldContainer}>
-            {options.map(c => (
-                <React.Fragment key={c}>
-                    <input className={styles.radioInput} name="transactionType" id={c} {...props} type="radio" />
-                    <label className={styles.radioLabel} htmlFor={c}>{c}</label>
+            {options.map((c) => (
+                <React.Fragment key={c.value}>
+                    <input
+                        className={styles.radioInput}
+                        value={c.value}
+                        name={name}
+                        id={c.value}
+                        checked={value === c.value}
+                        type="radio"
+                        onChange={onChange}
+                    />
+                    <label className={styles.radioLabel} htmlFor={c.value}>
+                        {c.label}
+                    </label>
                 </React.Fragment>
             ))}
         </div>
-    );
+    )
 }
- 
-export default RadioField;
+
+export default RadioField
