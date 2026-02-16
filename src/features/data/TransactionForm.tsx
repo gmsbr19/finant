@@ -9,6 +9,7 @@ import { Transaction } from "@/generated"
 import RadioField from "@/components/forms/inputs/RadioField"
 
 import { assignInlineVars } from "@vanilla-extract/dynamic"
+import { createTransaction } from "@/services/actions"
 
 type ActiveType = "income" | "expense" | null
 
@@ -104,13 +105,28 @@ const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
     const handleFormSubmit = async () => {
         setFormStatus("loading")
 
-        await new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(true)
-            }, 2500)
-        })
+        const transactionDate = formData.date ? new Date(formData.date) : new Date()
 
-        handleClose()
+        let competenceDate = transactionDate
+        
+        if (isCredit) {
+            competenceDate = new Date(transactionDate.getFullYear(), transactionDate.getMonth() + 1, 5)
+        }
+
+        const result = await createTransaction({
+            ...formData,
+            date: transactionDate,
+            type: activeType?.toUpperCase(),
+            isPaid: transactionDate <= new Date(),
+            competenceDate
+        } as Transaction)
+
+        if (result.success) {
+            handleClose()
+        } else {
+            setFormStatus("pending")
+            return
+        }
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +198,7 @@ const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
                                 name="amount"
                                 type="number"
                                 onChange={(e) => handleInputChange(e)}
-                                value={Number(formData.amount)}
+                                value={Number(formData.amount) || ""}
                             />
                         </FormField>
                         <FormField label="Data">
