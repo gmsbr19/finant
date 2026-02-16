@@ -3,16 +3,36 @@ import { vars } from "@/styles/theme.css"
 import { style } from "@vanilla-extract/css"
 import { growOnHoverAnim } from "@/styles/animations.css"
 
-const baseRow = style({
+export const baseRow = style([
+    {
+        display: "flex",
+        alignItems: "center",
+
+        borderRadius: vars.radii.card,
+        cursor: "pointer",
+        gap: vars.space.s,
+        transition: 'transform 0.2s ease-in-out',
+
+        ":hover": {
+            transform: `translate(${vars.space.m}, 0)`
+        },
+    },
+])
+
+export const iconContainer = style({
+    display: 'flex',
+    padding: vars.space.s,
+    borderRadius: vars.radii.full,
+    backgroundColor: `color-mix(in srgb, ${vars.colors.survival}, transparent 90%)`,
+    color: `color-mix(in srgb, ${vars.colors.survival}, transparent 50%)`,
+    width: 'fit-content',
+    height: 'fit-content'
+})
+
+export const infoContainer = style({
     display: "flex",
-    flexDirection: "column",
-    alignItems: "start",
-    padding: vars.space.m,
-    borderRadius: vars.radii.card,
-    cursor: 'pointer',
-    ":hover": {
-        backgroundColor: vars.colors.bgOverlay
-    }
+    flexDirection: 'column',
+    width: '100%'
 })
 
 export const typeLabel = style({
@@ -32,30 +52,6 @@ export const nameAndValue = style({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-})
-
-export const transactionRecipe = recipe({
-    base: [baseRow, growOnHoverAnim],
-
-    variants: {
-        type: {
-            income: {
-                borderLeft: `4px solid ${vars.colors.income}`,
-            },
-            survival: {
-                borderLeft: `4px solid ${vars.colors.survival}`,
-            },
-            eudaimonia: {
-                borderLeft: `4px solid ${vars.colors.eudaimonia}`,
-            },
-            resilience: {
-                borderLeft: `4px solid ${vars.colors.resilience}`,
-            },
-            transfer: {
-                borderLeft: `4px solid ${vars.colors.textMuted}`,
-            },
-        },
-    },
 })
 
 export const amountText = recipe({
