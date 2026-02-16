@@ -7,7 +7,7 @@ export const transactionForm = style([
     {
         display: "grid",
         gridTemplateColumns: "repeat(2, 1fr)",
-        gridTemplateRows: "repeat(2, 1fr)",
+        gridTemplateRows: "repeat(3, 1fr)",
         width: "fit-content",
     },
 ])

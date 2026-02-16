@@ -6,20 +6,28 @@ import SelectField from "@/components/forms/inputs/SelectField"
 import { ArrowDownToLine, ArrowUpFromLine, Send, X } from "lucide-react"
 import { useState } from "react"
 import { Transaction } from "@/generated"
-import { getNamesAndIds } from "@/services/categories"
+import RadioField from "@/components/forms/inputs/RadioField"
 
 type ActiveType = "income" | "expense" | null
 
+type BasicInfoType = { name: string; id: number }
+
 type TransactionFormProps = {
-    categories: { name: string; id: number }[]
+    categories: BasicInfoType[],
+    accounts: BasicInfoType[]
 }
 
-const TransactionForm = ({ categories }: TransactionFormProps) => {
+const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
     const [activeType, setActiveType] = useState<ActiveType>(null)
     const [formStatus, setFormStatus] = useState<"pending" | "loading" | null>()
     const [formData, setFormData] = useState<Partial<Transaction>>({})
 
-    const selectOptions = categories.map((c) => ({
+    const categoriesSelectOptions = categories.map((c) => ({
+        label: c.name,
+        value: c.id,
+    }))
+
+    const accountSelectOptions = accounts.map((c) => ({
         label: c.name,
         value: c.id,
     }))
@@ -28,7 +36,7 @@ const TransactionForm = ({ categories }: TransactionFormProps) => {
         formData?.amount &&
         formData.description?.trim() &&
         formData.categoryId &&
-        formData.date
+        formData.date,
     )
 
     const handleOpen = (type: ActiveType) => {
@@ -111,10 +119,10 @@ const TransactionForm = ({ categories }: TransactionFormProps) => {
     }
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const value = Number(e.target.value)
+        const { name, value } = e.target
         setFormData((prev) => ({
             ...prev,
-            categoryId: value,
+            [name]: value,
         }))
     }
 
@@ -146,7 +154,9 @@ const TransactionForm = ({ categories }: TransactionFormProps) => {
                                 name="date"
                                 type="date"
                                 onChange={(e) => handleInputChange(e)}
-                                value={formData.date ? String(formData.date) : ''}
+                                value={
+                                    formData.date ? String(formData.date) : ""
+                                }
                             />
                         </FormField>
                         <FormField label="Categoria">
@@ -156,7 +166,23 @@ const TransactionForm = ({ categories }: TransactionFormProps) => {
                                     onChange: handleSelectChange,
                                     value: formData?.categoryId || "",
                                 }}
-                                options={selectOptions}
+                                options={categoriesSelectOptions}
+                            />
+                        </FormField>
+                        <FormField label="Tipo">
+                            <RadioField
+                                options={["Débito", "Crédito"]}
+                                props={{}}
+                            />
+                        </FormField>
+                        <FormField label="Conta">
+                            <SelectField
+                                props={{
+                                    name: "fromAccId",
+                                    onChange: handleSelectChange,
+                                    value: formData?.fromAccId || "",
+                                }}
+                                options={accountSelectOptions}
                             />
                         </FormField>
                     </form>
