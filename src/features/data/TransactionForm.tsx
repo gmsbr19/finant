@@ -3,7 +3,7 @@ import FormField from "@/components/forms/FormField"
 import * as styles from "./TransactionForm.css"
 import InputField from "@/components/forms/inputs/InputField"
 import SelectField from "@/components/forms/inputs/SelectField"
-import { ArrowDownToLine, ArrowUpFromLine, Send, X } from "lucide-react"
+import { ArrowDownToLine, ArrowUpFromLine, Send, X, Bug } from "lucide-react"
 import { useState } from "react"
 import { Transaction } from "@/generated"
 import RadioField from "@/components/forms/inputs/RadioField"
@@ -66,8 +66,31 @@ const TransactionForm = ({ categories, accounts }: TransactionFormProps) => {
         setFormData({})
     }
 
+    const handleTest = async () => {
+        setFormStatus("loading")
+        await createTransaction({
+            description: "Teste",
+            amount: 100,
+            date: new Date(),
+            categoryId: categories[0]?.id,
+            fromAccId: accounts[0]?.id,
+            type: "EXPENSE",
+            isPaid: true,
+            competenceDate: new Date(),
+            installmentTotal: 1,
+        } as unknown as Transaction)
+        setFormStatus(null)
+    }
+
     const renderActionButtons = () => (
         <div className={styles.buttonsContainer}>
+            <button
+                onClick={(e) => handleTest()}
+                className={styles.expenseButton} 
+                style={{ backgroundColor: "gray" }}
+            >
+                <Bug width={24} />
+            </button>
             <button
                 onClick={(e) => handleOpen("expense")}
                 className={styles.expenseButton}
