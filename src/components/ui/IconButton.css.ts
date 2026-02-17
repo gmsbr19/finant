@@ -25,9 +25,10 @@ export const iconButton = style({
     },
 
     ":active": {
-        backgroundColor: hoverColor,
-        color: vars.colors.bgBase,
-        borderColor: vars.colors.bgBase,
-        transition: 'none'
+        backgroundColor: `color-mix(in srgb, ${hoverColor}, transparent 60%)`,
+        color: hoverColor,
+        borderColor: hoverColor,
+        transform: 'scale(0.9)',
+        transition: 'transform 0.05s ease'
     }
 })
