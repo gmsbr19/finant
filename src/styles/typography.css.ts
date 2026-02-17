@@ -16,6 +16,22 @@ export const h1 = style([
     },
 ])
 
+export const h2 = style([
+    display,
+    {
+        fontSize: vars.fontSizes.h2,
+        fontWeight: vars.fontWeights.semibold,
+    },
+])
+
+export const h3 = style([
+    display,
+    {
+        fontSize: vars.fontSizes.h3,
+        fontWeight: vars.fontWeights.medium,
+    },
+])
+
 const body = style({
     fontStyle: "normal",
     fontWeight: vars.fontWeights.medium,
