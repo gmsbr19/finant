@@ -4,6 +4,7 @@ import * as styles from './TransactionDetailsModal.css'
 import * as typography from '@/styles/typography.css'
 import { vars } from '@/styles/theme.css';
 import Divider from '../ui/Divider';
+import DetailField from './DetailField/DetailField';
 
 const TransactionDetailsModal = () => {
     return (<div className={styles.overlay}>
@@ -22,6 +23,7 @@ const TransactionDetailsModal = () => {
                     <span className={typography.h2}>Teste</span>
                     <span className={typography.moneyL}>R$ 269,99</span>
                 </div>
+                <DetailField />
             </div>
             <Divider />
             <div className={styles.footer}>
