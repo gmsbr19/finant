@@ -17,8 +17,7 @@ export const modalCard = style([
     colFlexContainer,
     {
         position: "fixed",
-        width: "fit-content",
-        minWidth: "400px",
+        width: "420px",
         height: "fit-content",
 
         backgroundColor: vars.colors.bgBase,
@@ -42,6 +41,7 @@ export const footer = style({
     height: "100%",
     display: "flex",
     justifyContent: "end",
+    gap: 4
 })
 
 export const closeButtonContainer = style({
@@ -54,7 +54,8 @@ export const body = style([
     colFlexContainer,
     {
         gap: vars.space.m,
-        padding: vars.space.s
+        padding: vars.space.s,
+        width: '100%'
     },
 ])
 
