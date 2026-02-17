@@ -8,6 +8,7 @@ export const iconButton = style({
     border: `1px solid ${vars.colors.border}`,
     backgroundColor: vars.colors.bgBase,
     borderRadius: vars.radii.button,
+    width: 'fit-content',
 
     display: 'flex',
     alignItems: 'center',
@@ -26,6 +27,7 @@ export const iconButton = style({
     ":active": {
         backgroundColor: hoverColor,
         color: vars.colors.bgBase,
-        borderColor: vars.colors.bgBase
+        borderColor: vars.colors.bgBase,
+        transition: 'none'
     }
 })
