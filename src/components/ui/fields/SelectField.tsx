@@ -1,4 +1,4 @@
-import * as styles from "../FormField.css"
+import * as styles from "./FormField.css"
 
 type Option = {
     label: string

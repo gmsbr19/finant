@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css'
-import { inputField } from '../FormField.css'
+import { inputField } from './FormField.css'
 import { vars } from '@/styles/theme.css'
 
 export const radioFieldContainer = style([inputField, {
@@ -26,7 +26,7 @@ export const radioLabel = style({
     selectors: {
         [`${radioInput}:checked + &`]: {
             backgroundColor: vars.colors.bgBase,
-            border: `1px solid ${vars.colors.border}`, // Cor de destaque quando selecionado
+            border: `1px solid ${vars.colors.border}`,
             color: vars.colors.textPrimary,
         },
         '&:hover': {
