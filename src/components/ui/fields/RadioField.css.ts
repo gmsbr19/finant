@@ -1,8 +1,7 @@
 import { style } from '@vanilla-extract/css'
-import { inputField } from './FormField.css'
 import { vars } from '@/styles/theme.css'
 
-export const radioFieldContainer = style([inputField, {
+export const radioFieldContainer = style([{
     display: 'flex',
     justifyContent: 'space-evenly',
     padding: 4
