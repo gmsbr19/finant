@@ -41,10 +41,12 @@ export const footer = style({
     width: "100%",
     height: "100%",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "end",
 })
 
 export const closeButtonContainer = style({
+    display: 'flex',
+    gap: 4,
     justifySelf: "end",
 })
 
