@@ -1,4 +1,4 @@
-import { Pencil, Trash2, X } from 'lucide-react';
+import { Ellipsis, Pencil, Trash2, X } from 'lucide-react';
 import IconButton from '../ui/IconButton';
 import * as styles from './TransactionDetailsModal.css'
 import * as typography from '@/styles/typography.css'
@@ -12,6 +12,7 @@ const TransactionDetailsModal = () => {
                 <span></span>
                 <span className={typography.h3}>Detalhes</span>
                 <div className={styles.closeButtonContainer}>
+                    <IconButton Icon={Ellipsis} />
                     <IconButton Icon={X} hoverColor={vars.colors.danger} />
                 </div>
             </div>
@@ -24,7 +25,6 @@ const TransactionDetailsModal = () => {
             </div>
             <Divider />
             <div className={styles.footer}>
-                <IconButton Icon={Trash2} hoverColor={vars.colors.danger} />
                 <IconButton Icon={Pencil} />
             </div>
         </div>
