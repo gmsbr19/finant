@@ -12,7 +12,7 @@ export const fontSizes = {
 } as const
 
 export const colors = {
-    bgBase: "#0A0A0A",
+    bgBase: "#000000",
     bgSurface: "#171717",
     bgOverlay: "#1A1A1A",
     textPrimary: "#EDEDED",
